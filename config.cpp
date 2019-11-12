@@ -64,12 +64,14 @@ bool ConfigParser::loadConfig(const std::string& rsFileName) {
 		ConfigOption* poOption = findOption(sName);
 
 		if (!poOption) {
-			fprintf(stderr, "Option \"%s\": ignored.\n", sName.c_str());
+			fprintf(stderr, "Option \"%s\" ignored.\n", sName.c_str());
 			continue;
 		}
 
+#ifdef _DEBUG
 		printf("Option \"%s\": type %u, value \"%s\".\n",
 				sName.c_str(), poOption->otType, sValue.c_str());
+#endif
 
 		switch (poOption->otType) {
 		case OPT_INT:
