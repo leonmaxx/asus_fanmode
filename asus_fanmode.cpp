@@ -146,6 +146,7 @@ int main() {
 	}
 
 	printf("Current Fan Mode: %s\n", fanModeToStr(nCurrentMode));
+	fflush(stdout);
 
 	while (s_bRunning) {
 		if (!readTemp(nCurrentTemp)) {
@@ -185,6 +186,7 @@ int main() {
 			if (nTargetMode != nCurrentMode) {
 				printf("Switching fan mode to \'%s\', temperature: %u\n",
 						fanModeToStr(nTargetMode), nTemp);
+				fflush(stdout);
 
 				if (!writeFanMode(nTargetMode)) {
 					printerr("Cannot switch fan mode!\n");
