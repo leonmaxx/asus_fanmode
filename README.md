@@ -13,8 +13,12 @@ sudo systemctl enable asus_fanmode
 sudo systemctl start asus_fanmode
 ```
   
-Log
----
+Check status
+------------
+```
+systemctl status asus_fanmode
+```
+  
 View log:
 ```
 journalctl -u asus_fanmode
@@ -27,10 +31,14 @@ Most likely on other laptops you'll need to change `cpu_temp` SysFS path. To fin
 ```
 cat /sys/class/hwmon/hwmon*/name
 ```
-On AMD Ryzen laptops needed one will have name `k10temp`. On Intel most likely `coretemp`.
+On AMD Ryzen laptops needed one will have name `k10temp`. On Intel most likely `coretemp`.  
+After you modify configuration file do not forget to restart service:
+```
+systemctl restart asus_fanmode
+```
   
 Laptop Models
 -------------
 Tested laptop models:  
-* FX705DY
-* FX505DY
+* FX705DY - out of the box
+* FX505DY - ?
