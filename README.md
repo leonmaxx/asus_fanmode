@@ -1,7 +1,7 @@
 asus_fanmode
 ============
 
-**asus_fanmode** is tool for automatic controll of Fan Boost Mode on ASUS TUF series laptops. Based on CPU temperature readings this tool selects fan mode using values from configuration file.
+**asus_fanmode** is a daemon that controls Fan Boost Mode on ASUS TUF series laptops. Based on CPU temperature readings this tool selects suitable fan mode using values from configuration file.
   
 Installation
 ------------

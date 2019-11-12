@@ -161,7 +161,10 @@ int main() {
 			unsigned nTargetMode = nCurrentMode;
 
 			if (nCurrentMode == s_cCfg.nModeSilent) {
-				if (nTemp >= s_cCfg.nNormalHigh) {
+				if (nTemp >= s_cCfg.nOverboostHigh) {
+					nTargetMode = s_cCfg.nModeOverboost;
+				}
+				else if (nTemp >= s_cCfg.nNormalHigh) {
 					nTargetMode = s_cCfg.nModeNormal;
 				}
 			}

@@ -2,7 +2,7 @@
 pkgname=asus_fanmode
 pkgver=0.1.0
 pkgrel=1
-pkgdesc="Tool for automatic Fan Boost Mode control on ASUS TUF laptops"
+pkgdesc="Daemon that controls Fan Boost Mode on ASUS TUF laptops"
 arch=('x86_64')
 url="https://github.com/leonmaxx/asus_fanmode"
 license=('BSD')
