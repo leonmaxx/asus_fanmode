@@ -41,4 +41,4 @@ Laptop Models
 -------------
 Tested laptop models:  
 * FX705DY - out of the box
-* FX505DY - ?
+* FX505DY - out of the box
