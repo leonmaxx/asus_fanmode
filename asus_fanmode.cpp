@@ -14,7 +14,7 @@
 #include "file.hpp"
 
 #define FAILCNT_LIMIT	5
-#define FILEBUF_SIZE	16
+#define FILEBUF_SIZE	32
 
 static struct Config {
 	std::string		sCPUTemp;
@@ -36,6 +36,58 @@ static struct Config {
 } s_cCfg;
 
 static bool s_bRunning = true;
+
+std::string format(const char* pcFmt, ...) {
+	char vcBuf[1024];
+
+	va_list vaArgs;
+	va_start(vaArgs, pcFmt);
+
+	int nLen = vsprintf(vcBuf, pcFmt, vaArgs);
+
+	return std::string(vcBuf, nLen);
+}
+
+bool readString(File& rfFile, std::string& rsStr) {
+	if (!rfFile.isValid()) {
+		return false;
+	}
+
+	ssize_t nSize;
+	char vcBuf[FILEBUF_SIZE + 1];
+
+	if ((nSize = rfFile.read(vcBuf, FILEBUF_SIZE)) <= 0) {
+		return false;
+	}
+
+	rsStr = std::string(vcBuf, nSize);
+	return true;
+}
+
+bool searchCPUHwmon() {
+	int nIndex = 0;
+
+	while (true) {
+		std::string sPath, sName;
+		sPath = format("/sys/class/hwmon/hwmon%d/", nIndex);
+
+		File fName(sPath + "name");
+
+		if (!fName.isValid() || !readString(fName, sName)) {
+			break;
+		}
+
+		if (sName.compare(0, 7, "k10temp") == 0 ||
+				sName.compare(0, 8, "coretemp") == 0) {
+			s_cCfg.sCPUTemp = sPath + "temp1_input";
+			return true;
+		}
+
+		nIndex++;
+	}
+
+	return false;
+}
 
 bool readUint(File& rfFile, unsigned& rnValue) {
 	if (!rfFile.isValid()) {
@@ -127,6 +179,15 @@ int main() {
 			!cpConf.loadConfig("asus_fanmode.conf")) {
 		fprintf(stderr, "Cannot find configuration file!\n");
 		return ENOENT;
+	}
+
+	if (s_cCfg.sCPUTemp.empty()) {
+		if (!searchCPUHwmon()) {
+			fprintf(stderr, "Cannot find CPU hwmon!\n");
+			return ENODEV;
+		}
+
+		printf("Found CPU hwmon: %s\n", s_cCfg.sCPUTemp.c_str());
 	}
 
 	unsigned nCurrentTemp;
