@@ -3,6 +3,10 @@ asus_fanmode
 
 **asus_fanmode** is a daemon that controls Fan Boost Mode on ASUS TUF series laptops. Based on CPU temperature readings this tool selects suitable fan mode using threshold values from configuration file.
   
+This daemon requires Linux kernel version 5.6 or later. For older kernels you need to apply this two patches:  
+1. [platform/x86: asus_wmi: Support throttle thermal policy](https://patchwork.kernel.org/patch/11292813/)
+2. [platform/x86: asus_wmi: Set throttle thermal policy to default](https://patchwork.kernel.org/patch/11292815/)
+  
 Installation
 ------------
 Install using make:
