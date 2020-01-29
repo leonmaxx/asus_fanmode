@@ -15,6 +15,7 @@
 
 #define FAILCNT_LIMIT	5
 #define FILEBUF_SIZE	32
+#define FORMATBUF_SIZE	1024
 
 static struct Config {
 	std::string		sCPUTemp;
@@ -38,7 +39,7 @@ static struct Config {
 static bool s_bRunning = true;
 
 std::string format(const char* pcFmt, ...) {
-	char vcBuf[1024];
+	char vcBuf[FORMATBUF_SIZE];
 
 	va_list vaArgs;
 	va_start(vaArgs, pcFmt);
@@ -105,6 +106,25 @@ bool readUint(File& rfFile, unsigned& rnValue) {
 	rnValue = strtoul(vcBuf, nullptr, 10);
 
 	return true;
+}
+
+bool searchFanMode() {
+	const std::string vsPaths[2] = {
+		"/sys/devices/platform/asus-nb-wmi/fan_boost_mode",
+		"/sys/devices/platform/asus-nb-wmi/throttle_thermal_policy"
+	};
+
+	for (int n = 0; n < 2; n++) {
+		File fFanMode(vsPaths[n]);
+		unsigned nValue;
+
+		if (fFanMode.isValid() && readUint(fFanMode, nValue)) {
+			s_cCfg.sFanMode = vsPaths[n];
+			return true;
+		}
+	}
+
+	return false;
 }
 
 bool readTemp(unsigned& rnTemp) {
@@ -183,11 +203,20 @@ int main() {
 
 	if (s_cCfg.sCPUTemp.empty()) {
 		if (!searchCPUHwmon()) {
-			fprintf(stderr, "Cannot find CPU hwmon!\n");
+			fprintf(stderr, "Cannot find CPU hwmon sysfs entry!\n");
 			return ENODEV;
 		}
 
 		printf("Found CPU hwmon: %s\n", s_cCfg.sCPUTemp.c_str());
+	}
+
+	if (s_cCfg.sFanMode.empty()) {
+		if (!searchFanMode()) {
+			fprintf(stderr, "Cannot find Fan Mode sysfs entry!\n");
+			return ENODEV;
+		}
+
+		printf("Found Fan Mode: %s\n", s_cCfg.sFanMode.c_str());
 	}
 
 	unsigned nCurrentTemp;
