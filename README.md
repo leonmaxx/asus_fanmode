@@ -7,6 +7,9 @@ This daemon requires Linux kernel version 5.6 or later. For older kernels you ne
 1. [platform/x86: asus_wmi: Support throttle thermal policy](https://patchwork.kernel.org/patch/11292813/)
 2. [platform/x86: asus_wmi: Set throttle thermal policy to default](https://patchwork.kernel.org/patch/11292815/)
   
+For laptops which use `fan_boost_mode` sysfs entry, following patch are needed:  
+1. [platform/x86: asus_wmi: Fix return value of fan_boost_mode_store](https://patchwork.kernel.org/patch/11419937/)
+  
 Installation
 ------------
 Install using make:
@@ -30,6 +33,8 @@ journalctl -u asus_fanmode
   
 Configuring
 -----------
+Note: Since version 0.3.0 daemon automatically searches for sysfs entries.  
+  
 After installation configuration file is in `/etc/asus_fanmode.conf`. It have comments with option descriptions.  
 Most likely on other laptops you'll need to change `cpu_temp` SysFS path. To find needed `hwmonX` use:
 ```
