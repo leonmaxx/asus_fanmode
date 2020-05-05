@@ -7,7 +7,7 @@ This daemon requires Linux kernel version 5.6 or later. For older kernels you ne
 1. [platform/x86: asus_wmi: Support throttle thermal policy](https://patchwork.kernel.org/patch/11292813/)
 2. [platform/x86: asus_wmi: Set throttle thermal policy to default](https://patchwork.kernel.org/patch/11292815/)
   
-For laptops which use `fan_boost_mode` sysfs entry, following patch are needed:  
+For laptops which use `fan_boost_mode` sysfs entry, Linux kernel version 5.7 or later is required. For older kernels you need to apply following patch:  
 1. [platform/x86: asus_wmi: Fix return value of fan_boost_mode_store](https://patchwork.kernel.org/patch/11419937/)
   
 Installation
