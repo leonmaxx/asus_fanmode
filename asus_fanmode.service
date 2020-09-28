@@ -1,6 +1,7 @@
 [Unit]
 Description=ASUS Fan Mode Service
-After=basic.target
+Requires=multi-user.target
+After=multi-user.target
 
 [Service]
 Type=simple
@@ -8,4 +9,4 @@ ExecStart=/usr/bin/asus_fanmode
 Restart=no
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=graphical.target
