@@ -18,6 +18,7 @@
 #define FORMATBUF_SIZE	1024
 
 static struct Config {
+	bool			bVerbose;
 	std::string		sCPUTemp;
 	unsigned		nCPUTempDivider;
 
@@ -34,7 +35,7 @@ static struct Config {
 
 	unsigned		nOverboostHigh;
 	unsigned		nOverboostLow;
-} s_cCfg;
+} s_cCfg = {false, };
 
 static bool s_bRunning = true;
 
@@ -183,6 +184,7 @@ int main() {
 	signal(SIGTERM, processSigTerm);
 
 	ConfigParser cpConf;
+	cpConf.addOption(s_cCfg.bVerbose,			"verbose");
 	cpConf.addOption(s_cCfg.sCPUTemp,			"cpu_temp");
 	cpConf.addOption(s_cCfg.nCPUTempDivider,	"cpu_temp_divider");
 	cpConf.addOption(s_cCfg.sFanMode,			"fan_mode");
@@ -274,9 +276,10 @@ int main() {
 			}
 
 			if (nTargetMode != nCurrentMode) {
-				printf("Switching fan mode to \'%s\', temperature: %u\n",
-						fanModeToStr(nTargetMode), nTemp);
-				fflush(stdout);
+				if (s_cCfg.bVerbose) {
+					printf("Switching fan mode to \'%s\', temperature: %u\n",
+							fanModeToStr(nTargetMode), nTemp);
+				}
 
 				if (!writeFanMode(nTargetMode)) {
 					printerr("Cannot switch fan mode!\n");
