@@ -1,0 +1,13 @@
+pkgbase = asus_fanmode
+	pkgdesc = Daemon that controls Fan Boost Mode on ASUS TUF laptops
+	pkgver = 0.3.2
+	pkgrel = 1
+	url = https://github.com/leonmaxx/asus_fanmode
+	arch = x86_64
+	license = BSD
+	makedepends = make
+	makedepends = gcc
+	source = https://github.com/leonmaxx/asus_fanmode/archive/v0.3.2.tar.gz
+	md5sums = SKIP
+
+pkgname = asus_fanmode

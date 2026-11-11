@@ -7,7 +7,7 @@ arch=('x86_64')
 url="https://github.com/leonmaxx/asus_fanmode"
 license=('BSD')
 source=(https://github.com/leonmaxx/asus_fanmode/archive/v${pkgver}.tar.gz)
-md5sums=('59c37676f23c29cabea2d893cefaed10')
+md5sums=(SKIP)
 makedepends=(make gcc)
 
 build() {
