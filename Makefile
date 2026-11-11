@@ -8,7 +8,7 @@
 .PHONY: all clean install
 
 CXX?=g++
-CXXFLAGS+=-std=c++11 -O2 -g -Wall
+CXXFLAGS+=-std=c++11 -O2 -Wall
 RM=rm
 INSTALL=/usr/bin/install
 
